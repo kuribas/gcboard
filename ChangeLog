@@ -1,0 +1,10 @@
+2004-05-31  Kristof Bastiaensen  <kristof.bastiaensen@vleeuwen.org>
+
+	* gtkcboard.c gtkcboard.h ruby/rbgtkcboard: added a
+	set_previous_piece function
+
+2004-05-30  Kristof Bastiaensen  <kristof.bastiaensen@vleeuwen.org>
+
+	* gtkcboard.c: added gtk_cboard_resize_grid
+	
+

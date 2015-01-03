@@ -1,0 +1,6 @@
+Documentation
+=============
+
+The Documentation is currently the source :-)  The best way to understand
+it is at this moment by looking at the demo application which is
+included.  It shows the steps necessary to create an application with GCBoard.

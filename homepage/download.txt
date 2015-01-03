@@ -1,0 +1,10 @@
+Download
+========
+
+You can download the current release here:  
+[gcboard-0.3.0.tar.gz][gcb]  
+You can also get the latest source from anonymous cvs:  
+
+<tt>cvs -d:pserver:anonymous@cvs.gcboard.sourceforge.net:/cvsroot/gcboard checkout gcboard</tt>
+
+  [gcb]:http://downloads.sourceforge.net/gcboard/gcboard-0.3.0.tar.gz?use_mirror=ovh

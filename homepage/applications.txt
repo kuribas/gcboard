@@ -1,0 +1,4 @@
+Applications
+============
+
+A playable demo application is included: a nice gui for the gnushogi engine.

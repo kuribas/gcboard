@@ -1,0 +1,42 @@
+ABOUT Gtk::GCBoard for Ruby
+===========================
+
+Information about copying: see the file COPYING in
+the parent directory.
+
+These are the ruby bindings for the gtkcboard library.
+I encourage everybody to write with this library 
+in Ruby, because it development is easier, faster,
+bugs can be solved faster, and there is no performance
+penalty (since speed dependent features are already
+implemented in this library).  An exception is the engine, 
+but I believe it is better to separate
+the interface from the engine.
+
+For an example of using this library with an engine,
+see the included demo.
+
+REQUIREMENTS:
+=============
+- Ruby (version 1.6 or later)
+- Gtk2.0/Ruby
+
+INSTALATION Instructions
+===============================
+
+* configuring:
+    ruby ./extconf.rb
+    make
+
+* stripping:
+    strip gtkcboard.so
+
+* installing:
+    make site-install
+  or (for distributions):
+    make install
+
+* testing: run the demo!
+    cd demo
+    ./shogi
+    

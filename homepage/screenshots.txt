@@ -1,0 +1,7 @@
+Screenshots
+===========
+
+Here is a screenshot of a test-app (which will be part of a
+complete game):
+
+![Test App](gcb_test.png)

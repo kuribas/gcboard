@@ -1,0 +1,239 @@
+= class Gtk::CBoard
+
+Gtk::CBoard is a widget that implements a Gameboard for chess-style games.
+
+== Object Hierarchy
+* Object
+  * GLib::Instantiatable
+    * GLib::Object
+      * Gtk::Object
+        * Gtk::Widget
+          * Gtk::CBoard
+
+== Class Methods
+--- Gtk::CBoard.new(width, height, grids)
+    Creates a new Gtk::CBoard widget
+    * width, height: The size of the Board in pixels.
+    * grids: An array of Gtk::CBoard::GridInfo objects, each describing a grid.  
+    * returns: A new Gtk::CBoard widget.
+      
+== Instance Methods
+--- background=(pixmap)
+    Sets or removes the background image.
+    * pixmap: A Gdk::Pixmap with the background image.  If nil, the background image will be removed, and a a signal emitted when the background needs to be drawn.
+    * returns: self.
+
+--- background
+    Gets the background image.
+    * returns: The background image as a Gdk::Pixmap or nil.
+
+--- set_grid_highlight_normal(grid, pixmap, mask = nil, x = 0, y = 0)
+    Sets or removes the image that is used for highlighting squares on the given grid.
+    * grid: The number of the grid to which this image applies.
+    * pixmap: A Gdk::Pixmap or Gdk::Pixbuf object that contains the highlight image.  If nil, the highlight pixmap will be removed, and a signal emitted when the highlight needs to be drawn.
+    * mask: The mask of the pixmap (only if pixmap is a Gdk::Pixmap), or nil.
+    * x, y: The offset of the highlight image in the square.
+    * returns: self.
+
+--- set_grid_highlight_premove(grid, pixmap, mask = nil, x = 0, y = 0)
+    Sets or removes the image that is used for highlighting squares for premove on the given grid. (premove is not implemented yet).
+    * grid: The number of the grid to which this image applies.
+    * pixmap: A Gdk::Pixmap or Gdk::Pixbuf object that contains the highlight image.  If nil, the highlight pixmap will be removed, and a signal emitted when the highlight needs to be drawn.
+    * mask: The mask of the pixmap (only if pixmap is a Gdk::Pixmap), or nil.
+    * x, y: The offset of the highlight image in the square.
+    * returns: self.
+
+--- redraw(x = 0, y = 0, width = total_width, height = total_height)
+    Redraws a portion of the board.  This can be useful to show changes in the background image.
+    * x, y, width, height: The coordinates of the portion to redraw.
+    * returns: self.
+
+--- resize(width, height)
+    Resizes the board.
+    * width, height: The new size.
+    * returns: self.
+
+--- resize_grid(grid, x, y, square_width, square_height, border_x, border_y)
+    Resizes a grid.
+    * x, y: The new offset.
+    * square_width, square_height: The new size of squares.
+    * border_x, border_y: The new size of square borders.
+    * returns: self.
+
+--- freeze
+    Freezes the board.  This will prohibit any drawing to the board until thaw is called.  Use this method to avoid flickering when doing many drawings at a time.  Calls to freeze may be nested: when calling freeze multiple times, the same number of calls to Gtk::CBoard#thaw are needed to completely unfreeze.
+    * returns: self.
+
+--- thaw
+    Unfreezes the board.  To completely unfreeze the board, Gtk::CBoard#thaw must be called as many times as it has been frozen.
+    * returns: self.
+
+--- add_overlay(overlay, x, y, layer)
+    Adds an Gtk::CBoard::Overlay to the board.  The overlay will be added when any previously requested animations have finished.  To add an overlay immediately use Gtk::CBoard#add_overlay_now.
+    * overlay: The Gtk::CBoard::Overlay image to add.
+    * x, y: The position in the board.
+    * layer: The layer of the overlay.
+    * returns: self.
+      
+--- add_overlay_now(overlay, x, y, layer)
+    Adds an Gtk::CBoard::Overlay to the board.  The overlay will be added immediately, without waiting for any animations to finish.
+    * overlay: The Gtk::CBoard::Overlay image to add.
+    * x, y: The position in the board.
+    * layer: The layer of the overlay.
+    * returns: self.
+
+--- add_overlay_piece(piece, x, y, grid, layer)
+    Creates an overlay from piece, and adds it using Gtk::CBoard#add_overlay.
+    * piece: The Gtk::CBoard::Piece to add.
+    * x, y: The offset
+    * returns: The created overlay.
+      
+
+--- add_overlay_piece_now(piece, x, y, grid, layer)
+    Creates an overlay from piece, and adds it using Gtk::CBoard#add_overlay_now.
+    * piece: The Gtk::CBoard::Piece to add.
+    * x, y: The offset
+    * returns: The created overlay.
+      
+--- calculate_offset_in_square(x, y, grid, offset_x, offset_y, width, height, gravity)
+    Calculates the pixel position of an image that should be placed in a given square with the given parameters.
+    * x, y: The coordinates of the square where the image should be placed.
+    * grid: The grid number of the square.
+    * offset_x, offset_y: The image will be offset by these values.
+    * width, height: The size of the image.
+    * gravity: The gravity of the image.  See Gtk::CBoard::Piece for more information about gravity.
+    * returns: The pixel coordinates of the offset in the board as two integers.
+      
+--- remove_overlay(overlay)
+    Removes an overlay from the board.  When the overlay will be removed depends on how the overlay was added, i.e. if it was added with Gtk::CBoard#add_overlay_now, removing the overlay will take effect immediately.
+    * overlay: The Gtk::CBoard::Overlay to remove
+    * returns: self
+      
+--- end_all_animation
+    Ends all animations that are currently in effect.  This will make the board show its most current state.
+    * returns: self
+
+--- enable_highlight=(enable)
+    Enables or disables the highlighting of the last move.  Default: true.
+    * enable: true to enable, false or nil to disable.
+    * returns: enable
+
+--- enable_flashing=(enable)
+    Enables or disables flashing of pieces that are moved.  Default: true.
+    * enable: true to enable, false or nil to disable.
+    * returns: enable
+
+--- enable_dragging=(enable)
+    Enables or disables moving the pieces by dragging them over the board.  Default: true.
+    * enable: true to enable, false or nil to disable.
+    * returns: enable
+
+--- enable_animated_move=(enable)
+    Enables or disables animating pieces when they are moved.  Default: true.
+    * enable: true to enable, false or nil to disable.
+    * returns: enable
+
+--- enable_clicking_move=(enable)
+    Enables or disables moving the pieces by clicking on the source and destination squares.  Default: true.
+    * enable: true to enable, false or nil to disable.
+    * returns: enable
+
+--- anim_speed=(speed)
+    Sets the speed of animations in milliseconds per frame.  Default: 10
+    * speed: The new speed.
+    * returns: speed
+
+--- flash_speed=(speed)
+    Sets the speed of flashing in milliseconds per frame.  Default: 120
+    * speed: The new speed.
+    * returns: speed.
+
+--- flash_count=(count)
+    Sets the number of times to flash.  Default: 3
+    * count : The new count.
+    * returns: count.
+
+--- promote_piece=(piece)
+    Sets the piece to promote to the next time Gtk::CBoard#put_piece or Gtk::CBoard#move_piece is called.
+    * piece: The Gtk::CBoard::Piece to promote to.
+    * returns: piece
+
+--- previous_piece=(piece)
+    Sets the previous piece that was on the source square when moving using Gtk::CBoard#move_piece.  When animations are turned on, the piece will appear to be underneath the current piece when moving it.  This is useful when undoing moves.
+    * piece: The Gtk::CBoard::Piece that appears on the source square.
+    * returns: piece
+
+--- set_mid_square(x, y, grid)
+    Sets a middle square for the next time moving.  The piece that will be moved will appear to pass this square on its way.
+    * x, y, grid: The coordinates and grid number of the middle square.
+    * returns: self
+
+--- move_piece(from_x, from_y, from_grid, to_x, to_y, to_grid, silent = false)
+    Moves a piece on the board.
+    * from_x, from_y, from_grid: The coordinates and grid number of the source square.
+    * to_x, to_y, to_grid: The coordinates and grid number of the destination square.
+    * silent: If true will prevent the piece from flashing and highlighting.  This should be used if the user is aware of the target square (i.e. he just moved the piece there himself).
+    * returns: self
+      
+--- cancel_move
+    Cancels a move currently in progress.  This method should be used only inside the drop_piece callback.  The normal way to cancel a move is to return false from the callback.  However sometimes it may be needed to cancel the move inside the callback, for example when showing a dialog.  Without this method the piece would be hanging while the user decides about the move.  If this method is called, the return value from the callbackk will be ignored.
+    * returns: self
+
+--- finish_move
+    Finishes a move currently in progress.  This method should be used only inside the drop_piece callback.  The normal way to finish a move is to return true from the callback.  Sometimes it may be needed to finish the move inside the callback.  The return value of the callback will be ignored then.
+    * returns: self.
+
+--- put_piece(piece, x, y, grid, silent = false)
+    Puts a piece on the board.
+    * piece: The Gtk::CBoard::Piece describing the piece to put on the board.  If nil, the square will be made empty.
+    * x, y: The square to place the piece on.
+    * grid: The grid number of the square
+    * silent: If true will prevent the piece from flashing and highlighting.
+    * returns: self
+
+--- get_piece(x, y, grid)
+    Gets the piece at the given square.  Because there may be animations in progress, the state of the board can be not the most recent one.  To be sure that the current position is the most recent, you must end all animations with Gtk::CBoard#end_all_animation.
+    * x, y: The square of the piece.
+    * grid: The grid number of the square
+    * returns: The Gtk::CBoard::Piece on the square, or nil if there is no piece.
+
+--- delay(duration)
+    Delay the animation for duration.
+    * duration: The duration in milliseconds to delay.
+    * returns: self
+
+--- block_piece(x, y, grid)
+    Prevents the piece on the given square from being moved.
+    * x, y: The square of the piece being blocked.
+    * grid: The grid number of the square.
+    * returns: self
+
+--- unblock_piece(x, y, grid)
+    Unblocks a pice block by Gtk::CBoard#block_piece, so it can be moved again.
+    * x, y: The square of the piece being unblocked.
+    * grid: The grid number of the square.
+    * returns: self
+      
+--- block_side(side)
+    Blocks all the pieces of side using Gtk::CBoard#block_piece.  Note that the prefered way to prevent any side from moving is to set player_side to an unexisting side.
+    * side: The number of the side which pieces will be blocked.
+    * returns: self
+
+--- unblock_side(side)
+    Unblocks all the piece of side that are blocked using Gtk::CBoard#block_piece.
+    * side: The number of the side which pieces will be unblocked.
+    * returns: self
+
+--- active_side=(side)
+    Sets the side of the player that is about to move.
+    * side: The number of the side.
+    * returns: side
+
+--- player_side=(side)
+    Sets the side of the player that is using the board.  Setting this value to an unexisting side will effectively block the whole board.
+    * side: The number of the side.
+    * returns: side
+      
+== Constants
+
+== Signals

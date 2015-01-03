@@ -1,0 +1,342 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html 
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Gtk%3A%3ACBoard</title>
+</head>
+<body>
+<h1><a name="label-0" id="label-0">class Gtk::CBoard</a></h1><!-- RDLabel: "class Gtk::CBoard" -->
+<p>Gtk::CBoard is a widget that implements a Gameboard for chess-style games.</p>
+<h2><a name="label-1" id="label-1">Object Hierarchy</a></h2><!-- RDLabel: "Object Hierarchy" -->
+<ul>
+<li>Object
+<ul>
+<li>GLib::Instantiatable
+<ul>
+<li>GLib::Object
+<ul>
+<li>Gtk::Object
+<ul>
+<li>Gtk::Widget
+<ul>
+<li>Gtk::CBoard</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2><a name="label-2" id="label-2">Class Methods</a></h2><!-- RDLabel: "Class Methods" -->
+<dl>
+<dt><a name="label-3" id="label-3"><code>Gtk::CBoard.new(<var>width</var>, <var>height</var>, <var>grids</var>)</code></a></dt><!-- RDLabel: "Gtk::CBoard.new" -->
+<dd>
+Creates a new Gtk::CBoard widget
+<ul>
+<li>width, height: The size of the Board in pixels.</li>
+<li>grids: An array of Gtk::CBoard::GridInfo objects, each describing a grid.  </li>
+<li>returns: A new Gtk::CBoard widget.</li>
+</ul></dd>
+</dl>
+<h2><a name="label-4" id="label-4">Instance Methods</a></h2><!-- RDLabel: "Instance Methods" -->
+<dl>
+<dt><a name="label-5" id="label-5"><code>background=(<var>pixmap</var>)</code></a></dt><!-- RDLabel: "background=" -->
+<dd>
+Sets or removes the background image.
+<ul>
+<li>pixmap: A Gdk::Pixmap with the background image.  If nil, the background image will be removed, and a a signal emitted when the background needs to be drawn.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-6" id="label-6"><code>background</code></a></dt><!-- RDLabel: "background" -->
+<dd>
+Gets the background image.
+<ul>
+<li>returns: The background image as a Gdk::Pixmap or nil.</li>
+</ul></dd>
+<dt><a name="label-7" id="label-7"><code>set_grid_highlight_normal(<var>grid</var>, <var>pixmap</var>, <var>mask</var> = <var>nil</var>, <var>x</var> = <var>0</var>, <var>y</var> = <var>0</var>)</code></a></dt><!-- RDLabel: "set_grid_highlight_normal" -->
+<dd>
+Sets or removes the image that is used for highlighting squares on the given grid.
+<ul>
+<li>grid: The number of the grid to which this image applies.</li>
+<li>pixmap: A Gdk::Pixmap or Gdk::Pixbuf object that contains the highlight image.  If nil, the highlight pixmap will be removed, and a signal emitted when the highlight needs to be drawn.</li>
+<li>mask: The mask of the pixmap (only if pixmap is a Gdk::Pixmap), or nil.</li>
+<li>x, y: The offset of the highlight image in the square.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-8" id="label-8"><code>set_grid_highlight_premove(<var>grid</var>, <var>pixmap</var>, <var>mask</var> = <var>nil</var>, <var>x</var> = <var>0</var>, <var>y</var> = <var>0</var>)</code></a></dt><!-- RDLabel: "set_grid_highlight_premove" -->
+<dd>
+Sets or removes the image that is used for highlighting squares for premove on the given grid. (premove is not implemented yet).
+<ul>
+<li>grid: The number of the grid to which this image applies.</li>
+<li>pixmap: A Gdk::Pixmap or Gdk::Pixbuf object that contains the highlight image.  If nil, the highlight pixmap will be removed, and a signal emitted when the highlight needs to be drawn.</li>
+<li>mask: The mask of the pixmap (only if pixmap is a Gdk::Pixmap), or nil.</li>
+<li>x, y: The offset of the highlight image in the square.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-9" id="label-9"><code>redraw(<var>x</var> = <var>0</var>, <var>y</var> = <var>0</var>, <var>width</var> = <var>total_width</var>, <var>height</var> = <var>total_height</var>)</code></a></dt><!-- RDLabel: "redraw" -->
+<dd>
+Redraws a portion of the board.  This can be useful to show changes in the background image.
+<ul>
+<li>x, y, width, height: The coordinates of the portion to redraw.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-10" id="label-10"><code>resize(<var>width</var>, <var>height</var>)</code></a></dt><!-- RDLabel: "resize" -->
+<dd>
+Resizes the board.
+<ul>
+<li>width, height: The new size.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-11" id="label-11"><code>resize_grid(<var>grid</var>, <var>x</var>, <var>y</var>, <var>square_width</var>, <var>square_height</var>, <var>border_x</var>, <var>border_y</var>)</code></a></dt><!-- RDLabel: "resize_grid" -->
+<dd>
+Resizes a grid.
+<ul>
+<li>x, y: The new offset.</li>
+<li>square_width, square_height: The new size of squares.</li>
+<li>border_x, border_y: The new size of square borders.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-12" id="label-12"><code>freeze</code></a></dt><!-- RDLabel: "freeze" -->
+<dd>
+Freezes the board.  This will prohibit any drawing to the board until thaw is called.  Use this method to avoid flickering when doing many drawings at a time.  Calls to freeze may be nested: when calling freeze multiple times, the same number of calls to Gtk::CBoard#thaw are needed to completely unfreeze.
+<ul>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-13" id="label-13"><code>thaw</code></a></dt><!-- RDLabel: "thaw" -->
+<dd>
+Unfreezes the board.  To completely unfreeze the board, Gtk::CBoard#thaw must be called as many times as it has been frozen.
+<ul>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-14" id="label-14"><code>add_overlay(<var>overlay</var>, <var>x</var>, <var>y</var>, <var>layer</var>)</code></a></dt><!-- RDLabel: "add_overlay" -->
+<dd>
+Adds an Gtk::CBoard::Overlay to the board.  The overlay will be added when any previously requested animations have finished.  To add an overlay immediately use Gtk::CBoard#add_overlay_now.
+<ul>
+<li>overlay: The Gtk::CBoard::Overlay image to add.</li>
+<li>x, y: The position in the board.</li>
+<li>layer: The layer of the overlay.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-15" id="label-15"><code>add_overlay_now(<var>overlay</var>, <var>x</var>, <var>y</var>, <var>layer</var>)</code></a></dt><!-- RDLabel: "add_overlay_now" -->
+<dd>
+Adds an Gtk::CBoard::Overlay to the board.  The overlay will be added immediately, without waiting for any animations to finish.
+<ul>
+<li>overlay: The Gtk::CBoard::Overlay image to add.</li>
+<li>x, y: The position in the board.</li>
+<li>layer: The layer of the overlay.</li>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-16" id="label-16"><code>add_overlay_piece(<var>piece</var>, <var>x</var>, <var>y</var>, <var>grid</var>, <var>layer</var>)</code></a></dt><!-- RDLabel: "add_overlay_piece" -->
+<dd>
+Creates an overlay from piece, and adds it using Gtk::CBoard#add_overlay.
+<ul>
+<li>piece: The Gtk::CBoard::Piece to add.</li>
+<li>x, y: The offset</li>
+<li>returns: The created overlay.</li>
+</ul></dd>
+<dt><a name="label-17" id="label-17"><code>add_overlay_piece_now(<var>piece</var>, <var>x</var>, <var>y</var>, <var>grid</var>, <var>layer</var>)</code></a></dt><!-- RDLabel: "add_overlay_piece_now" -->
+<dd>
+Creates an overlay from piece, and adds it using Gtk::CBoard#add_overlay_now.
+<ul>
+<li>piece: The Gtk::CBoard::Piece to add.</li>
+<li>x, y: The offset</li>
+<li>returns: The created overlay.</li>
+</ul></dd>
+<dt><a name="label-18" id="label-18"><code>calculate_offset_in_square(<var>x</var>, <var>y</var>, <var>grid</var>, <var>offset_x</var>, <var>offset_y</var>, <var>width</var>, <var>height</var>, <var>gravity</var>)</code></a></dt><!-- RDLabel: "calculate_offset_in_square" -->
+<dd>
+Calculates the pixel position of an image that should be placed in a given square with the given parameters.
+<ul>
+<li>x, y: The coordinates of the square where the image should be placed.</li>
+<li>grid: The grid number of the square.</li>
+<li>offset_x, offset_y: The image will be offset by these values.</li>
+<li>width, height: The size of the image.</li>
+<li>gravity: The gravity of the image.  See Gtk::CBoard::Piece for more information about gravity.</li>
+<li>returns: The pixel coordinates of the offset in the board as two integers.</li>
+</ul></dd>
+<dt><a name="label-19" id="label-19"><code>remove_overlay(<var>overlay</var>)</code></a></dt><!-- RDLabel: "remove_overlay" -->
+<dd>
+Removes an overlay from the board.  When the overlay will be removed depends on how the overlay was added, i.e. if it was added with Gtk::CBoard#add_overlay_now, removing the overlay will take effect immediately.
+<ul>
+<li>overlay: The Gtk::CBoard::Overlay to remove</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-20" id="label-20"><code>end_all_animation</code></a></dt><!-- RDLabel: "end_all_animation" -->
+<dd>
+Ends all animations that are currently in effect.  This will make the board show its most current state.
+<ul>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-21" id="label-21"><code>enable_highlight=(<var>enable</var>)</code></a></dt><!-- RDLabel: "enable_highlight=" -->
+<dd>
+Enables or disables the highlighting of the last move.  Default: true.
+<ul>
+<li>enable: true to enable, false or nil to disable.</li>
+<li>returns: enable</li>
+</ul></dd>
+<dt><a name="label-22" id="label-22"><code>enable_flashing=(<var>enable</var>)</code></a></dt><!-- RDLabel: "enable_flashing=" -->
+<dd>
+Enables or disables flashing of pieces that are moved.  Default: true.
+<ul>
+<li>enable: true to enable, false or nil to disable.</li>
+<li>returns: enable</li>
+</ul></dd>
+<dt><a name="label-23" id="label-23"><code>enable_dragging=(<var>enable</var>)</code></a></dt><!-- RDLabel: "enable_dragging=" -->
+<dd>
+Enables or disables moving the pieces by dragging them over the board.  Default: true.
+<ul>
+<li>enable: true to enable, false or nil to disable.</li>
+<li>returns: enable</li>
+</ul></dd>
+<dt><a name="label-24" id="label-24"><code>enable_animated_move=(<var>enable</var>)</code></a></dt><!-- RDLabel: "enable_animated_move=" -->
+<dd>
+Enables or disables animating pieces when they are moved.  Default: true.
+<ul>
+<li>enable: true to enable, false or nil to disable.</li>
+<li>returns: enable</li>
+</ul></dd>
+<dt><a name="label-25" id="label-25"><code>enable_clicking_move=(<var>enable</var>)</code></a></dt><!-- RDLabel: "enable_clicking_move=" -->
+<dd>
+Enables or disables moving the pieces by clicking on the source and destination squares.  Default: true.
+<ul>
+<li>enable: true to enable, false or nil to disable.</li>
+<li>returns: enable</li>
+</ul></dd>
+<dt><a name="label-26" id="label-26"><code>anim_speed=(<var>speed</var>)</code></a></dt><!-- RDLabel: "anim_speed=" -->
+<dd>
+Sets the speed of animations in milliseconds per frame.  Default: 10
+<ul>
+<li>speed: The new speed.</li>
+<li>returns: speed</li>
+</ul></dd>
+<dt><a name="label-27" id="label-27"><code>flash_speed=(<var>speed</var>)</code></a></dt><!-- RDLabel: "flash_speed=" -->
+<dd>
+Sets the speed of flashing in milliseconds per frame.  Default: 120
+<ul>
+<li>speed: The new speed.</li>
+<li>returns: speed.</li>
+</ul></dd>
+<dt><a name="label-28" id="label-28"><code>flash_count=(<var>count</var>)</code></a></dt><!-- RDLabel: "flash_count=" -->
+<dd>
+Sets the number of times to flash.  Default: 3
+<ul>
+<li>count : The new count.</li>
+<li>returns: count.</li>
+</ul></dd>
+<dt><a name="label-29" id="label-29"><code>promote_piece=(<var>piece</var>)</code></a></dt><!-- RDLabel: "promote_piece=" -->
+<dd>
+Sets the piece to promote to the next time Gtk::CBoard#put_piece or Gtk::CBoard#move_piece is called.
+<ul>
+<li>piece: The Gtk::CBoard::Piece to promote to.</li>
+<li>returns: piece</li>
+</ul></dd>
+<dt><a name="label-30" id="label-30"><code>previous_piece=(<var>piece</var>)</code></a></dt><!-- RDLabel: "previous_piece=" -->
+<dd>
+Sets the previous piece that was on the source square when moving using Gtk::CBoard#move_piece.  When animations are turned on, the piece will appear to be underneath the current piece when moving it.  This is useful when undoing moves.
+<ul>
+<li>piece: The Gtk::CBoard::Piece that appears on the source square.</li>
+<li>returns: piece</li>
+</ul></dd>
+<dt><a name="label-31" id="label-31"><code>set_mid_square(<var>x</var>, <var>y</var>, <var>grid</var>)</code></a></dt><!-- RDLabel: "set_mid_square" -->
+<dd>
+Sets a middle square for the next time moving.  The piece that will be moved will appear to pass this square on its way.
+<ul>
+<li>x, y, grid: The coordinates and grid number of the middle square.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-32" id="label-32"><code>move_piece(<var>from_x</var>, <var>from_y</var>, <var>from_grid</var>, <var>to_x</var>, <var>to_y</var>, <var>to_grid</var>, <var>silent</var> = <var>false</var>)</code></a></dt><!-- RDLabel: "move_piece" -->
+<dd>
+Moves a piece on the board.
+<ul>
+<li>from_x, from_y, from_grid: The coordinates and grid number of the source square.</li>
+<li>to_x, to_y, to_grid: The coordinates and grid number of the destination square.</li>
+<li>silent: If true will prevent the piece from flashing and highlighting.  This should be used if the user is aware of the target square (i.e. he just moved the piece there himself).</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-33" id="label-33"><code>cancel_move</code></a></dt><!-- RDLabel: "cancel_move" -->
+<dd>
+Cancels a move currently in progress.  This method should be used only inside the drop_piece callback.  The normal way to cancel a move is to return false from the callback.  However sometimes it may be needed to cancel the move inside the callback, for example when showing a dialog.  Without this method the piece would be hanging while the user decides about the move.  If this method is called, the return value from the callbackk will be ignored.
+<ul>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-34" id="label-34"><code>finish_move</code></a></dt><!-- RDLabel: "finish_move" -->
+<dd>
+Finishes a move currently in progress.  This method should be used only inside the drop_piece callback.  The normal way to finish a move is to return true from the callback.  Sometimes it may be needed to finish the move inside the callback.  The return value of the callback will be ignored then.
+<ul>
+<li>returns: self.</li>
+</ul></dd>
+<dt><a name="label-35" id="label-35"><code>put_piece(<var>piece</var>, <var>x</var>, <var>y</var>, <var>grid</var>, <var>silent</var> = <var>false</var>)</code></a></dt><!-- RDLabel: "put_piece" -->
+<dd>
+Puts a piece on the board.
+<ul>
+<li>piece: The Gtk::CBoard::Piece describing the piece to put on the board.  If nil, the square will be made empty.</li>
+<li>x, y: The square to place the piece on.</li>
+<li>grid: The grid number of the square</li>
+<li>silent: If true will prevent the piece from flashing and highlighting.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-36" id="label-36"><code>get_piece(<var>x</var>, <var>y</var>, <var>grid</var>)</code></a></dt><!-- RDLabel: "get_piece" -->
+<dd>
+Gets the piece at the given square.  Because there may be animations in progress, the state of the board can be not the most recent one.  To be sure that the current position is the most recent, you must end all animations with Gtk::CBoard#end_all_animation.
+<ul>
+<li>x, y: The square of the piece.</li>
+<li>grid: The grid number of the square</li>
+<li>returns: The Gtk::CBoard::Piece on the square, or nil if there is no piece.</li>
+</ul></dd>
+<dt><a name="label-37" id="label-37"><code>delay(<var>duration</var>)</code></a></dt><!-- RDLabel: "delay" -->
+<dd>
+Delay the animation for duration.
+<ul>
+<li>duration: The duration in milliseconds to delay.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-38" id="label-38"><code>block_piece(<var>x</var>, <var>y</var>, <var>grid</var>)</code></a></dt><!-- RDLabel: "block_piece" -->
+<dd>
+Prevents the piece on the given square from being moved.
+<ul>
+<li>x, y: The square of the piece being blocked.</li>
+<li>grid: The grid number of the square.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-39" id="label-39"><code>unblock_piece(<var>x</var>, <var>y</var>, <var>grid</var>)</code></a></dt><!-- RDLabel: "unblock_piece" -->
+<dd>
+Unblocks a pice block by Gtk::CBoard#block_piece, so it can be moved again.
+<ul>
+<li>x, y: The square of the piece being unblocked.</li>
+<li>grid: The grid number of the square.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-40" id="label-40"><code>block_side(<var>side</var>)</code></a></dt><!-- RDLabel: "block_side" -->
+<dd>
+Blocks all the pieces of side using Gtk::CBoard#block_piece.  Note that the prefered way to prevent any side from moving is to set player_side to an unexisting side.
+<ul>
+<li>side: The number of the side which pieces will be blocked.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-41" id="label-41"><code>unblock_side(<var>side</var>)</code></a></dt><!-- RDLabel: "unblock_side" -->
+<dd>
+Unblocks all the piece of side that are blocked using Gtk::CBoard#block_piece.
+<ul>
+<li>side: The number of the side which pieces will be unblocked.</li>
+<li>returns: self</li>
+</ul></dd>
+<dt><a name="label-42" id="label-42"><code>active_side=(<var>side</var>)</code></a></dt><!-- RDLabel: "active_side=" -->
+<dd>
+Sets the side of the player that is about to move.
+<ul>
+<li>side: The number of the side.</li>
+<li>returns: side</li>
+</ul></dd>
+<dt><a name="label-43" id="label-43"><code>player_side=(<var>side</var>)</code></a></dt><!-- RDLabel: "player_side=" -->
+<dd>
+Sets the side of the player that is using the board.  Setting this value to an unexisting side will effectively block the whole board.
+<ul>
+<li>side: The number of the side.</li>
+<li>returns: side</li>
+</ul></dd>
+</dl>
+<h2><a name="label-44" id="label-44">Constants</a></h2><!-- RDLabel: "Constants" -->
+<h2><a name="label-45" id="label-45">Signals</a></h2><!-- RDLabel: "Signals" -->
+
+</body>
+</html>

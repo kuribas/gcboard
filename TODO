@@ -1,0 +1,11 @@
+TODO:
+
+* Write Documentation!
+* Enable resizing
+* Enable resetting
+* Add premove code
+* Enable transformation on the coordinate system of each grid:
+  LEFT_TO_RIGHT
+  TOP_TO_BOTTOM
+  SWAP
+* Port it to many platforms and toolkits!

@@ -1,0 +1,13 @@
+GCBoard NEWS -- history of user-visible changes. 30 May 2004
+
+Version 0.3.0
+* Converted to Gtk2.0.  The GtkCBoard widget now also supports
+  pixbufs als image type.  This allows for nice effects such
+  as transparent pieces.
+
+Version 0.1.0
+
+* Initial release.  This release contains the Gtk1.2 version, and Ruby
+  language bindings.  Most of the features are implemented, except for
+  resizing, premove and transformation (and any to come :-).
+  Documentation is not written yet.

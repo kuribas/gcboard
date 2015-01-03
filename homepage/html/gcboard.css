@@ -1,0 +1,131 @@
+body {
+  background: url(achtergrond.gif) repeat;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+  font-size: 0.9em;
+}
+
+#header {
+  background: #192160;
+  border: 1pt solid black;
+  height: 108px;
+}
+
+#page {
+  position: absolute;
+  background: white url(menuback.gif) left repeat-y;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 10px;
+  magin-bottom: 10px;
+  padding: 0;
+  min-height: 96%;
+  min-width: 96%;
+  border: 1pt solid black;
+}
+
+a:link, a:active, a:visited {
+  text-decoration: none;
+  
+  /*color: #7357C5;*/
+  color: #994805;
+}
+
+a[name]:hover {
+  text-decoration: inherit;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: #C96840;
+}
+
+strong {
+  /*color: #4A783F; */
+  color: #994805;
+}
+
+#menu {
+  float: left;
+  width: 190px;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-left: 30px;
+}
+
+#menu a {
+  color: #495D91;
+}
+
+#menu ul {
+  list-style-type: none;
+  font-size: 0.9em;
+  padding: 0;
+  margin: 0;
+  line-height: 1.5em;
+  color: #495D91;
+  /* color: #7357C5; */
+  font-weight: bold;  
+}
+
+#menu li {
+  text-indent: 0px;
+}	  
+
+#contents {
+  margin-left: 210px;
+  margin-right: 0px;
+  padding-left: 2.4em;
+  padding-right: 2.4em;
+}
+
+#contents h1 {
+  text-align: center;
+  margin-bottom: 1em;
+  margin-left: -0.6em;
+  margin-right: -0.61em;
+  font-size: 1.4em;
+  color: white;
+  background: #9A645C;
+}
+
+#contents h2 {
+  border-width: 1px 0 1px 0;
+  border-style: dashed;
+  border-color: #7DC7AE;
+  font-size: 1.2em;
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  margin-left: -0.6em;
+  margin-right: -0.6em;
+  color: #9A645C;
+}
+
+#contents ul {
+  padding-left: 1.2em;
+}
+
+div.footer {
+  text-align: right;
+  padding-right: 2em;
+}
+
+dt {
+  color: #824282;
+  font-weight: bold;
+  margin-bottom: 0.4em;
+  border-width: 0 0 1px 0;
+  border-style: dashed;
+  border-color: #7DC7AE;
+}
+
+dd {
+  margin-bottom: 1.2em;
+  margin-left: 0em;
+}
+
+code {
+  font-size: 1.2em;
+}

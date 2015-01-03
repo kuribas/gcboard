@@ -1,0 +1,10 @@
+Gtk::CBoard for Ruby demo
+=========================
+
+This demo is a simple interface to gnushogi.
+It tries to demonstrate most of the features of Gtk::CBoard.
+It also shows how to connect your program to a chess engine
+(using pipes and Gtk.add_input), and how to make a simple interface
+using Gtk.
+
+You need the gnushogi engine to run this demo.
