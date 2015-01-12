@@ -45,10 +45,11 @@ Gcboard is released under the LGPL (See LICENCE).
 INSTALL
 -------
 
-To install the gtk version library you'll need the gtk2 development
-libraries.  For example on ubuntu/mint:
+To compile the gtk version library you'll need the gcc compiler,
+autotools, libtool, and the gtk2 development libraries.  For example on ubuntu/mint:
 
-    apt-get install libgtk2.0-dev`
+    apt-get install autotools-dev libtool gcc libgtk2.0-dev`
+	./autogen.sh
     ./configure
 	make
 	sudo make install
