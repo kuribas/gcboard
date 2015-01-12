@@ -1,4 +1,4 @@
-require 'mkmf'
+require 'mkmf-gnome2'
 
 pkg_config('gtk+-2.0')
 
@@ -16,5 +16,4 @@ EOL
    exit(-1)
 end
 
-find_header("rbgtk.h", '$(sitearchdir)')
 create_makefile("gtkcboard")

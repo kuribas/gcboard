@@ -222,8 +222,8 @@ class ShogiBoard < Gtk::CBoard
     3.times { |grid| set_grid_highlight_normal(grid, hlight_pmap, hlight_mask) }
 
     @captures = Array.new(2)
-    @captures[BLACK] = Captures.new (self, BLACK, 620, 132)
-    @captures[WHITE] = Captures.new (self, WHITE, 73, 38)
+    @captures[BLACK] = Captures.new(self, BLACK, 620, 132)
+    @captures[WHITE] = Captures.new(self, WHITE, 73, 38)
 
     setup_pieces()
     reset()
@@ -511,16 +511,16 @@ class GnuShogi
   end
 
   def square2str(x, y)
-    str = (8 - x + ?1).chr
-    str += (y + ?a).chr
+    str = (8 - x + ?1.ord).chr
+    str += (y + ?a.ord).chr
     return str
   end
 
   def str2square(str)
     return nil if str.length < 2
-    x = ?9 - str[0]
+    x = ?9.ord - str[0].ord
     return nil if x > 8 or x < 0
-    y = str[1] - ?a
+    y = str[1].ord - ?a.ord
     return nil if y > 8 or y < 0
     return [x, y]
   end
@@ -788,7 +788,7 @@ def create_submenu(parent, menuinfo)
     for info in menuinfo[1..-1]
       radio = radio ? Gtk::RadioMenuItem.new(radio, info[0]) :
               Gtk::RadioMenuItem.new(info[0])
-      radio.active = true if info[2]  #radioactive ????
+      radio.active = true if info[2]
       radio.signal_connect("toggled", info[1]) { |w, f|
 	f.call if w.active? }
       parent.append(radio)
@@ -851,7 +851,7 @@ begin
       board.promote = v if w.active? }
     hbox.pack_start(radio, false, true)
   end
-  radio.active = true # put on your special suit...
+  radio.active = true
   
   hbox.pack_start(statusbar, true, true)
   

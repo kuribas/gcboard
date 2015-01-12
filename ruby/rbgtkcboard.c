@@ -40,6 +40,10 @@ VALUE gCBoardOverlay, gCBoardPiece;
 
 ID id_cpiece2rbpiece;
 
+VALUE rb_gtk_cboard_overlay_new(int argc, VALUE *argv, VALUE class);
+VALUE rb_gtk_cboard_piece_new(int argc, VALUE *argv, VALUE class);
+void Init_gtkcboard(void);
+
 static void
 free_overlay(rb_GtkCBoardOverlay *overlay)
 {
@@ -51,7 +55,10 @@ free_overlay(rb_GtkCBoardOverlay *overlay)
 	   gdk_drawable_unref(overlay->pixmap.mask);
 	break;
      case GTKCBOARD_PIXBUF:
-	gdk_pixbuf_unref(overlay->pixbuf);
+	g_object_unref(overlay->pixbuf);
+	break;
+     default:
+	break;
    }
    free(overlay);
 }
@@ -88,7 +95,7 @@ overlay_initialize(int argc, VALUE *argv, VALUE self)
 	  rb_raise(rb_eArgError, "mask given with pixbuf");
        overlay->type = GTKCBOARD_PIXBUF;
        overlay->pixbuf = RVAL2GOBJ(pixmap);
-       gdk_pixbuf_ref(overlay->pixbuf);
+       g_object_ref(overlay->pixbuf);
    }
    else if(RVAL2GTYPE(pixmap) == GDK_TYPE_PIXMAP)
    {
@@ -131,7 +138,9 @@ overlay_dup(VALUE self)
 	break;
      case GTKCBOARD_PIXBUF:
 	new_overlay->pixbuf = orig->pixbuf;
-	gdk_pixbuf_ref(orig->pixbuf);
+	g_object_ref(orig->pixbuf);
+	break;
+     default:
 	break;
    }
    
@@ -159,13 +168,16 @@ void free_piece(GtkCBoardPiece *piece)
    {
      case GTKCBOARD_PIXBUF:
 	if(piece->pixbuf)
-	   gdk_pixbuf_unref(piece->pixbuf);
+	   g_object_unref(piece->pixbuf);
 	break;
      case GTKCBOARD_PIXMAP:
 	if(piece->pixmap.img)
 	   gdk_drawable_unref(piece->pixmap.img);
 	if(piece->pixmap.mask)
 	   gdk_drawable_unref(piece->pixmap.mask);
+	break;
+     default:
+	break;
    }
 
    free(piece);
@@ -199,6 +211,8 @@ piece_get_pixmap(VALUE self)
 			   (piece->pixmap.mask ? GOBJ2RVAL(piece->pixmap.mask) : Qnil));
      case GTKCBOARD_PIXBUF:
 	return GOBJ2RVAL(piece->pixbuf);
+     default:
+	break;
    }
    return Qnil;
 }
@@ -215,10 +229,10 @@ piece_set_pixmap(VALUE self, VALUE pixarg)
 
    if(TYPE(pixarg) == T_ARRAY)
    {
-       if(RARRAY(pixarg)->len != 2)
+       if(RARRAY_LENINT(pixarg) != 2)
 	  rb_raise(rb_eArgError, "number of elements in array must be 2: pixmap and mask");
-       pixmap = RARRAY(pixarg)->ptr[0];
-       mask = RARRAY(pixarg)->ptr[1];
+       pixmap = rb_ary_entry(pixarg, 0);
+       mask = rb_ary_entry(pixarg,1);
    }
    else {
        pixmap = pixarg;
@@ -250,7 +264,7 @@ piece_set_pixmap(VALUE self, VALUE pixarg)
        piece->pixbuf = RVAL2GOBJ(pixmap);
        piece->width = gdk_pixbuf_get_width(piece->pixbuf);
        piece->height = gdk_pixbuf_get_height(piece->pixbuf);
-       gdk_pixbuf_ref(piece->pixbuf);
+       g_object_ref(piece->pixbuf);
    }
    else
       rb_raise(rb_eTypeError, "wrong type of argument: should be pixmap or pixbuf");
@@ -259,13 +273,16 @@ piece_set_pixmap(VALUE self, VALUE pixarg)
    {
      case GTKCBOARD_PIXBUF:
 	if(old.pixbuf)
-	   gdk_pixbuf_unref(old.pixbuf);
+	   g_object_unref(old.pixbuf);
 	break;
      case GTKCBOARD_PIXMAP:
 	if(old.pixmap.img)
 	   gdk_drawable_unref(old.pixmap.img);
 	if(old.pixmap.mask)
 	   gdk_drawable_unref(old.pixmap.mask);
+	break;
+     default:
+	break;
    }
 
    return pixarg;
@@ -360,32 +377,32 @@ rbgtkcboard_init(VALUE self, VALUE width, VALUE height, VALUE grids)
    GtkWidget *widget;
 
    Check_Type(grids, T_ARRAY);
-   n_grids = RARRAY(grids)->len;
+   n_grids = RARRAY_LENINT(grids);
    if(n_grids == 0)
       rb_raise(rb_eArgError, "gridinfo-array argument has no elements.");
 
    ginfo = ALLOCA_N(GtkCBoardGridInfo, n_grids);
    for(grid = 0; grid < n_grids; grid++)
    {
-       grid_arr = RARRAY(grids)->ptr[grid];
+       grid_arr = rb_ary_entry(grids, grid);
        if(TYPE(grid_arr) != T_ARRAY)
 	  grid_arr = rb_funcall(grid_arr, rb_intern("to_a"), 0);
 
        Check_Type(grid_arr, T_ARRAY);
        
-       if(RARRAY(grid_arr)->len != 8)
+       if(RARRAY_LENINT(grid_arr) != 8)
 	  rb_raise(rb_eArgError,
 		   "grid %i needs exactly 8 parameters, but provides %i.",
-		   grid, RARRAY(grid_arr)->len);
+		   grid, RARRAY_LENINT(grid_arr));
 
-       ginfo[grid].x =        FIX2UINT(RARRAY(grid_arr)->ptr[0]);
-       ginfo[grid].y =        FIX2UINT(RARRAY(grid_arr)->ptr[1]);
-       ginfo[grid].columns =  FIX2UINT(RARRAY(grid_arr)->ptr[2]);
-       ginfo[grid].rows =     FIX2UINT(RARRAY(grid_arr)->ptr[3]);
-       ginfo[grid].square_w = FIX2UINT(RARRAY(grid_arr)->ptr[4]);
-       ginfo[grid].square_h = FIX2UINT(RARRAY(grid_arr)->ptr[5]);
-       ginfo[grid].border_x = FIX2UINT(RARRAY(grid_arr)->ptr[6]);
-       ginfo[grid].border_y = FIX2UINT(RARRAY(grid_arr)->ptr[7]);
+       ginfo[grid].x =        FIX2UINT(rb_ary_entry(grid_arr, 0));
+       ginfo[grid].y =        FIX2UINT(rb_ary_entry(grid_arr, 1));
+       ginfo[grid].columns =  FIX2UINT(rb_ary_entry(grid_arr, 2));
+       ginfo[grid].rows =     FIX2UINT(rb_ary_entry(grid_arr, 3));
+       ginfo[grid].square_w = FIX2UINT(rb_ary_entry(grid_arr, 4));
+       ginfo[grid].square_h = FIX2UINT(rb_ary_entry(grid_arr, 5));
+       ginfo[grid].border_x = FIX2UINT(rb_ary_entry(grid_arr, 6));
+       ginfo[grid].border_y = FIX2UINT(rb_ary_entry(grid_arr, 7));
    }
 
    widget = gtk_cboard_new(FIX2UINT(width), FIX2UINT(height), n_grids, ginfo);
@@ -519,6 +536,8 @@ board_redraw(int argc, VALUE *argv, VALUE self)
 	w = INT2FIX(board->width);
      case 3:
 	h = INT2FIX(board->height);
+     default:
+	break;
    }
 	
    gtk_cboard_redraw_area(board,
@@ -639,7 +658,10 @@ board_add_overlay_piece(VALUE self, VALUE v_piece,
 	break;
      case GTKCBOARD_PIXBUF:
 	new_overlay->pixbuf = piece->pixbuf;
-	gdk_pixbuf_ref(piece->pixbuf);
+	g_object_ref(piece->pixbuf);
+	break;
+     default:
+	break;
    }
 
    gtk_cboard_calculate_offset_in_square(GTK_CBOARD(RVAL2GOBJ(self)),
@@ -685,7 +707,10 @@ board_add_overlay_piece_now(VALUE self, VALUE v_piece,
 	break;
      case GTKCBOARD_PIXBUF:
 	new_overlay->pixbuf = piece->pixbuf;
-	gdk_pixbuf_ref(piece->pixbuf);
+	g_object_ref(piece->pixbuf);
+	break;
+     default:
+	break;
    }
 
    gtk_cboard_calculate_offset_in_square(GTK_CBOARD(RVAL2GOBJ(self)),
@@ -1039,7 +1064,7 @@ board_set_player_side(VALUE self, VALUE side)
    return side;
 }
 
-void Init_gtkcboard()
+void Init_gtkcboard(void)
 {
    VALUE gCBoard = G_DEF_CLASS(GTK_TYPE_CBOARD, "CBoard", mGtk);
 
