@@ -58,6 +58,6 @@ above.  You'll need the ruby-gnome development libraries.  For Ubuntu/mint:
 
 	apt-get install ruby-dev ruby-gnome2-dev
 	cd ruby
-	ruby extconf
+	ruby extconf.rb
 	make
 	sudo make install
