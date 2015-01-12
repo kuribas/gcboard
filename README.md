@@ -61,3 +61,11 @@ above.  You'll need the ruby-gnome development libraries.  For Ubuntu/mint:
 	ruby extconf.rb
 	make
 	sudo make install
+
+DEMO
+----
+
+There is a demo in the `ruby/demo` directory.  It shows a working
+interface for the gnushogi engine.  To run this demo, first install the
+ruby bindings, and make sure _gnushogi_ is somewhere in the path.
+Then run the shogi.rb program from the `ruby/demo` directory.
