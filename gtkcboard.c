@@ -51,7 +51,6 @@ typedef struct
 {
    guint id;
    void (* callback)(gpointer);
-   int running;
 } GcbTimer;
 
 
@@ -68,10 +67,9 @@ static
 gint gtk_cboard_timer_callback(gpointer data)
 {
    GcbBoard *board = (GcbBoard *)data;
-   if(board->timer.running)
-      (board->timer.callback)((gpointer)board);
-      
-   return board->timer.running;
+   (board->timer.callback)((gpointer)board);
+
+   return TRUE;
 }
 
 static inline
@@ -80,13 +78,12 @@ void set_timer(void *data, GcbTimer *timer, short interval,
 {
    timer->id = g_timeout_add(interval, gtk_cboard_timer_callback, (gpointer) board);
    timer->callback = (gpointer)func;
-   timer->running = TRUE;
 }
 
 static inline
 void stop_timer(void *data, GcbTimer *timer)
 {
-   timer->running = FALSE;
+   g_source_remove(timer->id);
 }
 
 static inline

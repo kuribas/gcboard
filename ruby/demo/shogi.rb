@@ -38,7 +38,7 @@ class ShogiPiece < Gtk::CBoard::Piece
     @index = index
     
     self.offset_x = 0
-    self.offset_y = 0
+    self.offset_y = (side == BLACK ? -1 : 1)
     self.side = side
     self.gravity = (side == BLACK ? Gtk::CBoard::GRAVITY_SOUTH : 
                           Gtk::CBoard::GRAVITY_NORTH)

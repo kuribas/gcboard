@@ -833,7 +833,7 @@ board_enable_clicking_move(VALUE self, VALUE enable)
 static VALUE
 board_set_anim_speed(VALUE self, VALUE speed)
 {
-   gtk_cboard_set_anim_speed(GTK_CBOARD(RVAL2GOBJ(self)), INT2FIX(speed));
+   gtk_cboard_set_anim_speed(GTK_CBOARD(RVAL2GOBJ(self)), FIX2INT(speed));
 
    return speed;
 }
@@ -841,15 +841,15 @@ board_set_anim_speed(VALUE self, VALUE speed)
 static VALUE
 board_set_flash_speed(VALUE self, VALUE speed)
 {
-   gtk_cboard_set_flash_speed(GTK_CBOARD(RVAL2GOBJ(self)), INT2FIX(speed));
-
+   gtk_cboard_set_flash_speed(GTK_CBOARD(RVAL2GOBJ(self)), FIX2INT(speed));
+   
    return speed;
 }
 
 static VALUE
 board_set_flash_count(VALUE self, VALUE count)
 {
-   gtk_cboard_set_flash_count(GTK_CBOARD(RVAL2GOBJ(self)), INT2FIX(count));
+   gtk_cboard_set_flash_count(GTK_CBOARD(RVAL2GOBJ(self)), FIX2INT(count));
 
    return count;
 }
