@@ -1,5 +1,6 @@
-lib_LTLIBRARIES = libgtkcboard.la
+ACLOCAL_AMFLAGS = -I m4
 
+lib_LTLIBRARIES = libgtkcboard.la
 include_HEADERS = gtkcboard.h
 
 libgtkcboard_la_SOURCES = gtkcboard.c gtkcboard-marshal.c
@@ -10,7 +11,8 @@ libgtkcboard_la_DEPENDENCIES = gcb_common.c gcb_common.h gtkcboard.h gtkcboard-m
 EXTRA_DIST = gcb_common.c gcb_common.h gtkcboard-marshal.h
 DISTCLEANFILES = .deps/*.P
 
-AM_CPPFLAGS = $(GTKCBOARD_CFLAGS)
+AM_CPPFLAGS = $(GTKCBOARD_CPPFLAGS)
+AM_CFLAGS = -Wall $(GTKCBOARD_CFLAGS)
 
 dist-hook:
 	mkdir $(distdir)/ruby

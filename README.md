@@ -45,10 +45,15 @@ Gcboard is released under the LGPL (See LICENCE).
 INSTALL
 -------
 
+To compile the latest version, clone this repository:
+
+    sudo apt-get install git
+	git clone https://github.com/kuribas/gcboard
+
 To compile the gtk version library you'll need the gcc compiler,
 autotools, libtool, and the gtk2 development libraries.  For example on ubuntu/mint:
 
-    apt-get install autotools-dev libtool gcc libgtk2.0-dev`
+    sudo apt-get install autotools-dev libtool gcc libgtk2.0-dev`
 	./autogen.sh
     ./configure
 	make
@@ -57,7 +62,7 @@ autotools, libtool, and the gtk2 development libraries.  For example on ubuntu/m
 For the ruby version, first install the gtklibs using the commands
 above.  You'll need the ruby-gnome development libraries.  For Ubuntu/mint:
 
-	apt-get install ruby-dev ruby-gnome2-dev
+	sudo apt-get install ruby-dev ruby-gnome2-dev
 	cd ruby
 	ruby extconf.rb
 	make
