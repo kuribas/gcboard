@@ -115,7 +115,7 @@ gboolean drop_piece (GtkCBoard *board, gint fx, gint fy, gint fgrid, gint x, gin
        fy = rand() % 6;
    }while(mx == fx && my == fy);
    g_message("moving from %i, %i, %i to %i, %i, %i", mx, my, 0, fx, fy, 0);
-   gtk_cboard_move_piece(board, mx, my, 0, fx, fy, 0, FALSE);
+   //gtk_cboard_move_piece(board, mx, my, 0, fx, fy, 0, FALSE);
    side = ! side;
    gtk_cboard_set_active_side(board, side);
    gtk_cboard_set_player_side(board, side);
