@@ -42,3 +42,22 @@ concentrate on the game-specific parts.
 
 Gcboard is released under the LGPL (See LICENCE).
 
+INSTALL
+-------
+
+To install the gtk version library you'll need the gtk2 development
+libraries.  For example on ubuntu/mint:
+
+    apt-get install libgtk2.0-dev`
+    ./configure
+	make
+	sudo make install
+
+For the ruby version, first install the gtklibs using the commands
+above.  You'll need the ruby-gnome development libraries.  For Ubuntu/mint:
+
+	apt-get install ruby-dev ruby-gnome2-dev
+	cd ruby
+	ruby extconf
+	make
+	sudo make install
