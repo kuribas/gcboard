@@ -2,7 +2,7 @@
   gtkcboard.h - Generic Chess Board
   declarations for gtk+ cboard-widget
   http://gcboard.sourceforge.net
-  Copyright (C) 2004 Kristof Bastiaensen
+  Copyright (C) 2015 Kristof Bastiaensen
   
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@ extern "C" {
 #endif //__cplusplus
 
 #define GTK_TYPE_CBOARD         (gtk_cboard_get_type())
-#define GTK_CBOARD(obj)         (GTK_CHECK_CAST ((obj), gtk_cboard_get_type(), GtkCBoard))
-#define GTK_IS_CBOARD(obj)      (GTK_CHECK_TYPE((obj), gtk_cboard_get_type()))
-#define GTK_CBOARD_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), gtk_cboard_get_type, GtkBoardClass))
+#define GTK_CBOARD(obj)         (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTK_TYPE_CBOARD, GtkCBoard))
+#define GTK_IS_CBOARD(obj)      (G_TYPE_CHECK_INSTANCE_TYPE((obj), GTK_TYPE_CBOARD))
+#define GTK_CBOARD_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), G_TYPE_CBOARD, GtkBoardClass))
 
 typedef struct _GtkCBoard          GtkCBoard;
 typedef struct _GtkCBoardClass     GtkCBoardClass;
@@ -144,7 +144,7 @@ struct _GtkCBoardGridInfo
    guint16 border_x, border_y;
 };
 
-GtkType gtk_cboard_get_type (void);
+GType gtk_cboard_get_type (void);
 GtkWidget *gtk_cboard_new      (guint16   width, guint16   height, gint16    grids, const GtkCBoardGridInfo *ginfo);
 void gtk_cboard_resize_grid(GtkCBoard *board, gint16 grid, gint16 x, gint16 y,
 			    gint16 sw, gint16 sh, gint16 borderX, gint16 borderY);

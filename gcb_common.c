@@ -21,6 +21,7 @@
 
 #include <malloc.h>
 #include <stdarg.h>
+#include <string.h>
 #include "config.h"
 
 #ifndef HAVE_MALLOC

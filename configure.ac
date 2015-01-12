@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
-AC_INIT(gcb_common.c)
-AM_INIT_AUTOMAKE(gcboard, 0.3.0)
+AC_INIT(gcb_common.c, [0.3.1])
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
 
 # Checks for programs.

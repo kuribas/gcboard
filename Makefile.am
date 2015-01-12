@@ -10,7 +10,7 @@ libgtkcboard_la_DEPENDENCIES = gcb_common.c gcb_common.h gtkcboard.h gtkcboard-m
 EXTRA_DIST = gcb_common.c gcb_common.h gtkcboard-marshal.h
 DISTCLEANFILES = .deps/*.P
 
-INCLUDES = $(GTKCBOARD_CFLAGS)
+AM_CPPFLAGS = $(GTKCBOARD_CFLAGS)
 
 dist-hook:
 	mkdir $(distdir)/ruby

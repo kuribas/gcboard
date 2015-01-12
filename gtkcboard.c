@@ -22,8 +22,6 @@
 #define GTK_DISABLE_DEPRECATED 1
 
 #include <gdk/gdk.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtk.h>
 
 /******************************************
@@ -53,6 +51,7 @@ typedef struct
 {
    guint id;
    void (* callback)(gpointer);
+   int running;
 } GcbTimer;
 
 
@@ -69,22 +68,25 @@ static
 gint gtk_cboard_timer_callback(gpointer data)
 {
    GcbBoard *board = (GcbBoard *)data;
-   (board->timer.callback)((gpointer)board);
-   return 1;
+   if(board->timer.running)
+      (board->timer.callback)((gpointer)board);
+      
+   return board->timer.running;
 }
 
 static inline
 void set_timer(void *data, GcbTimer *timer, short interval,
 	       void (* func) (GcbBoard *), GcbBoard *board)
 {
-   timer->id = gtk_timeout_add(interval, gtk_cboard_timer_callback, (gpointer) board);
-   timer->callback = func;
+   timer->id = g_timeout_add(interval, gtk_cboard_timer_callback, (gpointer) board);
+   timer->callback = (gpointer)func;
+   timer->running = TRUE;
 }
 
 static inline
 void stop_timer(void *data, GcbTimer *timer)
 {
-   gtk_timeout_remove(timer->id);
+   timer->running = FALSE;
 }
 
 static inline
@@ -123,12 +125,12 @@ void pixmap_ref(GcbPixmap *pixmap)
    switch(pixmap->type)
    {
      case GTKCBOARD_PIXBUF:
-	gdk_pixbuf_ref(pixmap->pixbuf);
+	g_object_ref(pixmap->pixbuf);
 	break;
      case GTKCBOARD_PIXMAP:
-	gdk_drawable_ref(pixmap->pixmap.img);
+	g_object_ref(pixmap->pixmap.img);
 	if(pixmap->pixmap.mask)
-	   gdk_drawable_ref(pixmap->pixmap.mask);
+	   g_object_ref(pixmap->pixmap.mask);
    }
 }
 
@@ -138,12 +140,12 @@ void pixmap_unref(GcbPixmap *pixmap)
    switch(pixmap->type)
    {
      case GTKCBOARD_PIXBUF:
-	gdk_pixbuf_unref(pixmap->pixbuf);
+	g_object_unref(pixmap->pixbuf);
 	break;
      case GTKCBOARD_PIXMAP:
-	gdk_drawable_unref(pixmap->pixmap.img);
+	g_object_unref(pixmap->pixmap.img);
 	if(pixmap->pixmap.mask)
-	   gdk_drawable_unref(pixmap->pixmap.mask);
+	   g_object_unref(pixmap->pixmap.mask);
    }
 }
 
@@ -159,7 +161,7 @@ void create_drawable(void *data, GcbDrawable *draw, short width, short height)
 static inline
 void destroy_drawable(void *data, GcbDrawable *draw)
 {
-   gdk_drawable_unref( draw->img );
+   g_object_unref( draw->img );
    gdk_gc_destroy( draw->gc );
 }
 
@@ -210,7 +212,7 @@ static void gtk_cboard_unmap          (GtkWidget *widget);
 
 static GtkWidgetClass *parent_class = NULL;
 
-GtkType
+GType
 gtk_cboard_get_type (void)
 {
    static GType cboard_type = 0;
@@ -387,7 +389,7 @@ gtk_cboard_destroy (GtkObject *object)
        if(cboard->canvas.gc)
 	  gdk_gc_destroy(cboard->canvas.gc);
 
-       gdk_drawable_unref(cboard->canvas.img);
+       g_object_unref(cboard->canvas.img);
    }
 
    if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -405,7 +407,7 @@ gtk_cboard_realize (GtkWidget *widget)
    g_return_if_fail (GTK_IS_CBOARD (widget));
 
    cboard = GTK_CBOARD (widget);
-   GTK_WIDGET_SET_FLAGS (widget, GTK_REALIZED);
+   gtk_widget_set_realized(widget, TRUE);
 
    attributes.window_type = GDK_WINDOW_CHILD;
    attributes.x = widget->allocation.x;
@@ -449,17 +451,17 @@ static void
 gtk_cboard_size_allocate (GtkWidget     *widget,
 			  GtkAllocation *allocation)
 {
-   GtkCBoard *cboard;
+   //GtkCBoard *cboard;
    
    g_return_if_fail (widget != NULL);
    g_return_if_fail (GTK_IS_CBOARD (widget));
    g_return_if_fail (allocation != NULL);
 
-   cboard = (GtkCBoard *)widget;
+   //cboard = (GtkCBoard *)widget;
 
    widget->allocation = *allocation;
    
-   if (GTK_WIDGET_REALIZED (widget))
+   if (gtk_widget_get_realized (widget))
    {
        gdk_window_move_resize (widget->window,
 			       allocation->x, allocation->y,
@@ -480,10 +482,10 @@ gtk_cboard_expose (GtkWidget *widget,
    cboard = GTK_CBOARD (widget);
 
    gdk_draw_drawable(widget->window,
-		   widget->style->fg_gc[widget->state], cboard->canvas.img,
-		   event->area.x, event->area.y,
-		   event->area.x, event->area.y,
-		   event->area.width, event->area.height);
+		     widget->style->fg_gc[widget->state], cboard->canvas.img,
+		     event->area.x, event->area.y,
+		     event->area.x, event->area.y,
+		     event->area.width, event->area.height);
    
    return FALSE;
 }
@@ -552,9 +554,9 @@ gtk_cboard_map (GtkWidget *widget)
    
    cboard = (GtkCBoard *)widget;
 
-   if(!GTK_WIDGET_MAPPED (widget))
+   if(!gtk_widget_get_mapped (widget))
    {
-       GTK_WIDGET_SET_FLAGS (widget, GTK_MAPPED);
+       gtk_widget_set_mapped(widget, TRUE);
        cboard->canvas.img = gdk_pixmap_new(widget->window, cboard->width,
 					   cboard->height, -1);
        cboard->canvas.gc = gdk_gc_new(cboard->canvas.img);
@@ -575,11 +577,11 @@ gtk_cboard_unmap (GtkWidget *widget)
    
    cboard = (GtkCBoard *)widget;
 
-   if(GTK_WIDGET_MAPPED (widget))
+   if(gtk_widget_get_mapped(widget))
    {
-       GTK_WIDGET_UNSET_FLAGS (widget, GTK_MAPPED);
+       gtk_widget_set_mapped(widget, FALSE);
        gcb_freeze(GET_BOARD(cboard));
-       gdk_drawable_unref(cboard->canvas.img);
+       g_object_unref(cboard->canvas.img);
        gdk_gc_destroy (cboard->canvas.gc);
        gdk_window_hide (widget->window);
        cboard->canvas.img = NULL;
@@ -670,9 +672,9 @@ void gtk_cboard_resize(GtkCBoard *board, gint16 width, gint16 height)
 
    widget = GTK_WIDGET(board);
 
-   if(GTK_WIDGET_MAPPED (widget))
+   if(gtk_widget_get_mapped (widget))
    {
-       gdk_drawable_unref(board->canvas.img);
+       g_object_unref(board->canvas.img);
        board->canvas.img = gdk_pixmap_new(widget->window, board->width,
 					   board->height, -1);
        gcb_set_canvas(GET_BOARD(board), *((GcbDrawable *)&board->canvas),
@@ -693,13 +695,13 @@ void gtk_cboard_set_background(GtkCBoard *board, GdkPixmap *pixmap)
 
    dptr = gcb_get_background(GET_BOARD(board));
    if(dptr)
-      gdk_drawable_unref(dptr->img);
+      g_object_unref(dptr->img);
 
    if(pixmap == NULL)
        gcb_unset_background(GET_BOARD(board));
    else {
        draw.img = pixmap;
-       gdk_drawable_ref(pixmap);
+       g_object_ref(pixmap);
        draw.gc  = NULL;
 
        gcb_set_background(GET_BOARD(board), draw);
