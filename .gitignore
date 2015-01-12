@@ -27,3 +27,4 @@ Makefile.in
 /ltmain.sh
 /config.sub
 /config.guess
+/m4/*.m4
