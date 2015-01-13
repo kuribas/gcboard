@@ -22,6 +22,10 @@
 #include <rbgtk.h>
 #include "../gtkcboard.h"
 
+#ifndef RARRAY_LENINT
+#define RARRAY_LENINT(ary) rb_long2int(RARRAY_LEN(ary))
+#endif
+
 typedef struct
 {
    GtkCBoardOverlay *overlay;
