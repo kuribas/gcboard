@@ -3,6 +3,7 @@
 *.o
 *.lo
 *.a
+*.la
 *.so
 *.so.*
 .deps/*
@@ -35,6 +36,8 @@ ruby/Makefile
 /missing
 /stamp-h1
 /ltmain.sh
+/libtool
 /config.sub
 /config.guess
 /m4/*.m4
+/ruby/.RUBYLIBDIR.time
