@@ -5,6 +5,11 @@
 *.a
 *.so
 *.so.*
+.deps/*
+.libs/*
+
+ruby/*.o
+ruby/*.la
 
 #backup files
 
@@ -12,7 +17,9 @@
 
 # http://www.gnu.org/software/automake
 
+Makefile
 Makefile.in
+ruby/Makefile
 
 # http://www.gnu.org/software/autoconf
 
@@ -20,6 +27,9 @@ Makefile.in
 /aclocal.m4
 /compile
 /configure
+/config.h
+/config.log
+/config.status
 /depcomp
 /install-sh
 /missing
