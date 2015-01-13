@@ -48,25 +48,19 @@ INSTALL
 To compile the latest version, clone this repository:
 
     sudo apt-get install git
-	git clone https://github.com/kuribas/gcboard
+    git clone https://github.com/kuribas/gcboard
 
-To compile the gtk version library you'll need the gcc compiler,
-autotools, libtool, and the gtk2 development libraries.  For example on ubuntu/mint:
+To compile the gtk library you'll need the gcc compiler,
+autotools, libtool, and the gtk2 development libraries.  For the
+ruby bindings you need additionaly the ruby and ruby-gnome2 development libraries.
 
-    sudo apt-get install autotools-dev libtool gcc libgtk2.0-dev`
-	./autogen.sh
-    ./configure
-	make
-	sudo make install
+For example on ubuntu/mint:
 
-For the ruby version, first install the gtklibs using the commands
-above.  You'll need the ruby-gnome development libraries.  For Ubuntu/mint:
-
-	sudo apt-get install ruby-dev ruby-gnome2-dev
-	cd ruby
-	ruby extconf.rb
-	make
-	sudo make install
+    sudo apt-get install autotools-dev libtool gcc libgtk2.0-dev` #ruby-gnome2-dev
+    ./autogen.sh
+    ./configure # --enable-ruby 
+    make
+    sudo make install
 
 DEMO
 ----

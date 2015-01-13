@@ -14,6 +14,10 @@ DISTCLEANFILES = .deps/*.P
 AM_CPPFLAGS = $(GTKCBOARD_CPPFLAGS)
 AM_CFLAGS = -Wall $(GTKCBOARD_CFLAGS)
 
+if WITH_RUBY
+  SUBDIRS = ruby
+endif
+
 dist-hook:
 	mkdir $(distdir)/ruby
 	cp -pr `cat $(srcdir)/ruby/.dist-files | sed 's|^|$(srcdir)/ruby/|'` $(distdir)/ruby
