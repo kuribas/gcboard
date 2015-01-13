@@ -6,4 +6,4 @@ language: c
 compiler:
   - gcc
 
-script: ./autogen.sh && ./configure --prefix=/usr && make && make install && cd ruby && ruby extconf.rb && make
+script: ./autogen.sh && ./configure && make && cd ruby && ruby extconf.rb && make

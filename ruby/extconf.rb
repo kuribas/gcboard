@@ -1,9 +1,14 @@
-require 'mkmf-gnome2'
+begin
+  require 'mkmf-gnome2'
+rescue
+  puts "Couldn't find ruby-gnome2 development libraries."
+  exit(1)
+end
 
 pkg_config('gtk+-2.0')
 
 dir_config("gtk2.0")
-dir_config("gtkcboard")
+dir_config("gtkcboard", "../", "../.libs/")
 
 if not have_header('gtkcboard.h') or not have_library('gtkcboard', 'gtk_cboard_new')
    puts <<EOL
