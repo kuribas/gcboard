@@ -15,7 +15,7 @@ AM_CPPFLAGS = $(GTKCBOARD_CPPFLAGS)
 AM_CFLAGS = -Wall $(GTKCBOARD_CFLAGS)
 
 if WITH_RUBY
-  SUBDIRS = ruby
+  SUBDIRS = . ruby
 endif
 
 dist-hook:
