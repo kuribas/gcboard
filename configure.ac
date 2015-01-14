@@ -8,8 +8,7 @@ AC_ARG_ENABLE([ruby],
 	         [build the ruby language bindings @<:@default=disable@:>@]),
 		 [], [enable_ruby=no])
 AS_IF([test x"$enable_ruby" != xno],
-  [echo x"$enable_ruby"
-   AC_PATH_PROG([RUBY], [ruby])
+  [AC_PATH_PROG([RUBY], [ruby], [/usr/bin:/usr/local/bin:$PATH])
    AS_IF([test x"$RUBY" != x],
    [cd ruby;
    AS_IF([$RUBY extconf.rb],
