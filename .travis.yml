@@ -6,4 +6,4 @@ language: c
 compiler:
   - gcc
 
-script: ./autogen.sh && ./configure --enable-ruby && make
+script: ./autogen.sh && ./configure --ruby=/usr/bin/ruby --enable-ruby && make
