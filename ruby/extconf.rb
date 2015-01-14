@@ -3,8 +3,11 @@ require 'mkmf'
 pkg_config('gtk+-2.0')
 dir_config("gtk2.0")
 
-find_header("rbgtk.h", '$(sitearchdir)')
-find_header("rbgtk.h", '$(vendorarchdir)')
+unless find_header("rbgtk.h", '$(sitearchdir)') ||
+      find_header("rbgtk.h", '$(vendorarchdir)')
+   puts "couldn't find header files for ruby-gtk2"
+   exit(1)
+end
 
 $LIBPATH += ["../.libs/"]
 $CPPFLAGS = "-I ../ " + $CPPFLAGS
