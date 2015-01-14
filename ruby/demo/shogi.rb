@@ -465,10 +465,11 @@ class GnuShogi
       return
     end
     move = str2move(text.split(" ")[2])
-    if move == nil
-      raise "Unexpected error: incorrect move by gnushogi: " + text
+    if move.nil?
+      STDERR.puts(text)
+    else
+      @move_callback.call(move)
     end
-    @move_callback.call(move)
   end
   private :parse
 
