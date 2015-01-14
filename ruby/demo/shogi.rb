@@ -3,6 +3,15 @@
 require 'gtk2'
 require 'gtkcboard'
 
+#fix incompatibility for ruby versions <1.8.7
+unless Fixnum.method_defined?(:ord)
+  class Fixnum
+    def ord()
+      self
+    end
+  end
+end
+
 PIECE_DIR = "./pieces/"
 
 BLACK = 0
