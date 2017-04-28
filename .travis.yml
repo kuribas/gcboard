@@ -1,9 +1,11 @@
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y ruby-dev ruby ruby-gnome2-dev libgtk2.0-dev
+{
+  "before_install": [
+    "sudo apt-get update -qq",
+    "sudo apt-get install -y ruby-dev ruby ruby-gnome2-dev libgtk2.0-dev"
+  ],
+  "language": "c",
+  "compiler": "gcc",
+  "script": "autogen.sh && ./configure --ruby=/usr/bin/ruby --enable-ruby && make && make install && cd ruby && ruby extconf.rb && make",
+  "os": "linux"
+}
 
-language: c
-compiler:
-  - gcc
-
-script: ./autogen.sh && ./configure --ruby=/usr/bin/ruby --enable-ruby && make
